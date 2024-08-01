@@ -1,4 +1,4 @@
-# Project-36-Insurance-Management-System
+ # Project-26-Insurance-Management-System
 This is an insurance system assignment given in Java Patika course. 
 
 The task is:
