@@ -1,8 +1,5 @@
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
-
-import javax.xml.stream.events.Comment;
 
 public class User {
     private String firstName;

@@ -1,16 +1,16 @@
 import java.util.ArrayList;
 
 public abstract class Account implements Comparable{
-    private AuthenticationStatus statusUser;
     private User user;
-    private ArrayList<Insurance> insuranceList = new ArrayList<>();
+    private ArrayList<Insurance> insuranceList; 
+
+    public Account(User user) {
+        this.user = user;
+        insuranceList = new ArrayList<>();
+    }
 
     public final void showUserInfo(){
         System.out.println(user.toString());
-    }
-
-    public AuthenticationStatus getLoginStatusUser() {
-        return statusUser;
     }
 
     public User getUser() {
@@ -33,12 +33,13 @@ public abstract class Account implements Comparable{
         AddressManager.removeAddress(a, user);
     }
 
-    public void logInUser(String mail, String password) throws InvalidAuthenticationException {
+    public Account logInUser(String mail, String password) {
         if(this.user.getEmail().equals(mail) && this.user.getPassword().equals(password)){
-            this.statusUser = AuthenticationStatus.SUCCESS;
+            
+            return this;
         } else{
-            this.statusUser = AuthenticationStatus.FAIL;
-            throw new InvalidAuthenticationException();
+            
+            return null;
         }
     }
 
@@ -46,19 +47,42 @@ public abstract class Account implements Comparable{
 
     @Override
     public boolean equals(Object obj) {
-        
-        return super.equals(obj);
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Account other = (Account) obj;
+        if (user == null) {
+            if (other.user != null)
+                return false;
+        } else if (!user.equals(other.user))
+            return false;
+        return true;
     }
 
     @Override
     public int hashCode() {
-        // TODO Auto-generated method stub
-        return super.hashCode();
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((user == null) ? 0 : user.hashCode());
+        return result;
     }
 
     @Override
     public int compareTo(Object o) {
-        // TODO Auto-generated method stub
-        return 0;
+        if(o instanceof Account){
+            Account compAcc = (Account) o;
+            return this.getUser().getFirstName().compareTo(compAcc.getUser().getFirstName()) == 0 ? this.getUser().getLastName().compareTo(compAcc.getUser().getLastName()) : this.getUser().getFirstName().compareTo(compAcc.getUser().getFirstName());
+        }
+        return -1;
     }
 }
+
+/* 
+
+
+
+Klavyeden email ve şifre bilgisini alan bir sınıf tasarlayınız. Klavyeden alınan email ve şifre bilgisi ile AccountManager sınıfındaki "login" fonksiyonunu çağırın. Eğer geçerli bir kullanıcı ile giriş yapmışsanız bu fonksiyon size Account tipinde bir nesne dönecektir.
+*/
